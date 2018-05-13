@@ -30,6 +30,7 @@ public class IndividualActivity extends AppCompatActivity {
         TextView showQuote = findViewById(R.id.tv_individual_activity);
         Intent intentThatStartedThis = getIntent();
 
+        // TODO: This can be simplified to one IF
         if (intentThatStartedThis != null) {
             if (intentThatStartedThis.hasExtra(Intent.EXTRA_TEXT)) {
                 extraText = intentThatStartedThis.getStringExtra(Intent.EXTRA_TEXT);

@@ -7,9 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.quoteforthisday.model.Quote;
+
+import java.util.List;
+
 public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHolder> {
-    private String[] listOfItems;
-    public QuoteAdapter(String[] listOfItems, ListItemClickListener itemClickListener) {
+    private List<Quote> listOfItems;
+
+    public QuoteAdapter(List<Quote> listOfItems, ListItemClickListener itemClickListener) {
         this.listOfItems = listOfItems;
         this.itemClickListener = itemClickListener;
     }
@@ -17,7 +22,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHol
     class QuoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textToShow;
 
-        public QuoteViewHolder (View view) {
+        private QuoteViewHolder (View view) {
             super(view);
             textToShow = view.findViewById(R.id.item);
             textToShow.setOnClickListener(this);
@@ -42,13 +47,13 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHol
 
     @Override
     public void onBindViewHolder(@NonNull QuoteViewHolder holder, int position) {
-        holder.textToShow.setText(listOfItems[position]);
+        holder.textToShow.setText(listOfItems.get(position).getText());
 
     }
 
     @Override
     public int getItemCount() {
-        return listOfItems.length;
+        return listOfItems.size();
     }
     ListItemClickListener itemClickListener;
     public interface ListItemClickListener {
