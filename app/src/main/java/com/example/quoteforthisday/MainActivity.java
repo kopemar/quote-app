@@ -41,28 +41,7 @@ public class MainActivity extends AppCompatActivity implements QuoteAdapter.List
     //TODO: 7. Find some GIT/Github tutorials and create pull request on your master branch on github. Dont merge it, I will do a code review for you :)
     //TODO: 8. Add more cool function to app :)
 
-    /*
-     * Jak k tomu pridat autory?
-     * */
-    String[] listOfItems = {
-            "Hodně budeš někde.",
-            "Odpouštěj svým nepřátelům - ničím je nenaštveš víc.",
-            "Podepsat knížku od vyžírky Kmenty? #nasratjako",
-            "To nebude fungovat.",
-            "John Lennon once said: Life is what happens when you're busy making other plans.",
-            "Manon je motýl\nManon je včela\nManon je růže vhozená do kostela\nManon je vše, co neztratí nikdy svůj pel\nManon je motýl, který mi uletěl",
-            "Za tatalitě bylo to zakázaný.",
-            "Já tady vidím velký špatný",
-            "Vy někomu sdělujete své příjmy? Sorry jako.",
-            "Běda rusalko bledá!",
-            "Hello world.",
-            "Toto je možné jen v Rusku! Neuvěříte vlastním očím.",
-            "Stařec je stařec a moře je moře.",
-            "Nezlobte se na mě, já mám 39 horečku.",
-            "Já jsem tři dny nespal.",
-            "Úloha osobnosti v dějinách sestává prakticky z ochoty dotyčné osobnosti zemřít nebo nechat se zabít dříve, než stačila odvolat.",
-            "Přílišná oddanost ideálům končívá tím, že v rámci boje za potírání alkoholismu zastřelíš dítě se sáčkem rumových pralinek."
-    };
+
     RecyclerView quotesRecyclerView;
     Retrofit retrofit;
     QuoteService service;
@@ -78,16 +57,23 @@ public class MainActivity extends AppCompatActivity implements QuoteAdapter.List
 
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         quotesRecyclerView.setLayoutManager(manager);
-
     }
 
     @Override
     public void onListItemClick(int position) {
+        String quote = quoteList.get(position).getText();
+        String author = quoteList.get(position).getAuthor();
+        String cat = quoteList.get(position).getCategory();
         Intent intent = new Intent(this, com.example.quoteforthisday.IndividualActivity.class);
-        intent.putExtra(Intent.EXTRA_TEXT, listOfItems[position]);
+
+        Bundle extras = new Bundle();
+        extras.putString("QUOTE", quote);
+        extras.putString("AUTHOR", author);
+        extras.putString("CAT", cat);
+        intent.putExtras(extras);
+
         startActivity(intent);
     }
-
 
     private void initRetrofitService() {
         Gson gson = new Gson().newBuilder().setLenient().create();

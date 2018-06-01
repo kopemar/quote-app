@@ -6,7 +6,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:padding="16dp"
-        android:text="This is where your quotes should be shown. Unfortunately they are not."
+        android:text="@string/default_text"
         android:id="@+id/item"/>
     <View
         android:layout_width="match_parent"

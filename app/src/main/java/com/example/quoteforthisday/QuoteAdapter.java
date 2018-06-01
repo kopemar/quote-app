@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.example.quoteforthisday.model.Quote;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHolder> {
@@ -17,12 +19,20 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHol
     public QuoteAdapter(List<Quote> listOfItems, ListItemClickListener itemClickListener) {
         this.listOfItems = listOfItems;
         this.itemClickListener = itemClickListener;
+        Collections.sort(listOfItems, new Comparator<Quote>() {
+            @Override
+            public int compare(Quote o1, Quote o2) {
+                String s1 = o1.getCategory();
+                String s2 = o2.getCategory();
+                return s1.compareToIgnoreCase(s2);
+            }
+        });
     }
 
     class QuoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textToShow;
 
-        private QuoteViewHolder (View view) {
+        public QuoteViewHolder(View view) {
             super(view);
             textToShow = view.findViewById(R.id.item);
             textToShow.setOnClickListener(this);
@@ -33,8 +43,6 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHol
             itemClickListener.onListItemClick(getAdapterPosition());
         }
     }
-
-
 
     @NonNull
     @Override
@@ -48,7 +56,6 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHol
     @Override
     public void onBindViewHolder(@NonNull QuoteViewHolder holder, int position) {
         holder.textToShow.setText(listOfItems.get(position).getText());
-
     }
 
     @Override
@@ -59,6 +66,4 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHol
     public interface ListItemClickListener {
         void onListItemClick(int position);
     }
-
-
 }
