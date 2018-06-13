@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.quoteforthisday.api.QuoteService;
 import com.example.quoteforthisday.model.Quote;
@@ -30,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements QuoteAdapter.List
     /**
      * You can see the response which we download here: https://talaikis.com/api/quotes/
      * If you look at it, you can easily understand how to change Quote class so it will contains also the author.
-     *
      */
 
     //TODO: 2. Add also category variable to quotes and display both author and category texts on quote detail screen
@@ -42,7 +43,8 @@ public class MainActivity extends AppCompatActivity implements QuoteAdapter.List
     //TODO: 8. Add more cool function to app :)
 
 
-    RecyclerView quotesRecyclerView;
+    private RecyclerView quotesRecyclerView;
+    private ProgressBar progressBar;
     Retrofit retrofit;
     QuoteService service;
     List<Quote> quoteList = new ArrayList<>();
@@ -52,11 +54,22 @@ public class MainActivity extends AppCompatActivity implements QuoteAdapter.List
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initRetrofitService();
-        downloadQuoutes();
+
+        progressBar = findViewById(R.id.pb_loading_indicator);
         quotesRecyclerView = findViewById(R.id.rv_show_list);
 
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         quotesRecyclerView.setLayoutManager(manager);
+
+        if (QuoteHolder.cachedQuotes.isEmpty()) {
+            downloadQuoutes();
+        }
+        else {
+            quoteList = QuoteHolder.cachedQuotes;
+            QuoteAdapter quotesListAdapter = new QuoteAdapter(quoteList, MainActivity.this);
+            quotesRecyclerView.setAdapter(quotesListAdapter);
+            progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -92,13 +105,14 @@ public class MainActivity extends AppCompatActivity implements QuoteAdapter.List
 
         qouteCall.enqueue(new Callback<List<Quote>>() {
 
-
             @Override
             public void onResponse(Call<List<Quote>> call, Response<List<Quote>> response) {
                 quoteList = response.body();
                 QuoteAdapter quotesListAdapter = new QuoteAdapter(quoteList, MainActivity.this);
                 quotesRecyclerView.setAdapter(quotesListAdapter);
 
+                QuoteHolder.cachedQuotes = response.body();
+                progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
