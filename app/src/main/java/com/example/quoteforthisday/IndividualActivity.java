@@ -31,11 +31,13 @@ public class IndividualActivity extends AppCompatActivity {
         TextView showQuote = findViewById(R.id.tv_individual_activity);
         TextView showAuthor = findViewById(R.id.tv_author);
         TextView showCat = findViewById(R.id.tv_cat);
+        final String dash = "– ";
         Intent intentThatStartedThis = getIntent();
-        // COMPLETED: This can be simplified to one IF
+
         if (intentThatStartedThis.hasExtra("AUTHOR")) {
             author = intentThatStartedThis.getStringExtra("AUTHOR");
-            showAuthor.setText(author);
+            String myAuthor = dash + author;
+            showAuthor.setText(myAuthor);
         }
         if (intentThatStartedThis.hasExtra("QUOTE")) {
             extraText = intentThatStartedThis.getStringExtra("QUOTE");
