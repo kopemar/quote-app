@@ -9,6 +9,6 @@ import retrofit2.http.GET;
 
 public interface QuoteService {
 
-    @GET("quotes/")
+    @GET("?quotes=latest")
     Call<List<Quote>> getQoutes();
 }

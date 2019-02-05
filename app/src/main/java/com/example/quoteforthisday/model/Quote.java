@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class Quote {
 
-    @SerializedName("quote")
+    @SerializedName("text")
     String text;
 
     @SerializedName("author")
     String author;
 
-    @SerializedName("cat")
+    @SerializedName("category")
     String category;
 
     public void setText(String text) {

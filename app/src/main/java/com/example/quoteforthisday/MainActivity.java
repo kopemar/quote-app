@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements QuoteAdapter.List
         quotesRecyclerView.setLayoutManager(manager);
 
         if (QuoteHolder.cachedQuotes.isEmpty()) {
-            downloadQuoutes();
+            downloadQuotes();
         }
         else {
             quoteList = QuoteHolder.cachedQuotes;
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements QuoteAdapter.List
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case action_reload:
-                downloadQuoutes();
+                downloadQuotes();
                 return true;
             default: return super.onOptionsItemSelected(item);
         }
@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements QuoteAdapter.List
         Gson gson = new Gson().newBuilder().setLenient().create();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://talaikis.com/api/")
+                .baseUrl("http://kopemar.cz/quote-api/api.php/")
                 .client(getClientWithInterceptor())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements QuoteAdapter.List
         service = retrofit.create(QuoteService.class);
     }
 
-    private void downloadQuoutes() {
+    private void downloadQuotes() {
         progressBar.setVisibility(View.VISIBLE);
         Call<List<Quote>> qouteCall = service.getQoutes();
 

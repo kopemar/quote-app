@@ -32,7 +32,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHol
     class QuoteViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textToShow;
 
-        public QuoteViewHolder(View view) {
+        private QuoteViewHolder(View view) {
             super(view);
             textToShow = view.findViewById(R.id.item);
             textToShow.setOnClickListener(this);
@@ -49,8 +49,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<QuoteAdapter.QuoteViewHol
     public QuoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Boolean attachViewImmediatelyToParent = false;
         View singleItemLayout = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, attachViewImmediatelyToParent);
-        QuoteViewHolder quoteViewHolder = new QuoteViewHolder(singleItemLayout);
-        return quoteViewHolder;
+        return new QuoteViewHolder(singleItemLayout);
     }
 
     @Override
